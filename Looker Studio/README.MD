@@ -1,4 +1,4 @@
-### 📂 Project 1: Email Campaign Analysis
+### 📂 Project: Email Campaign Analysis
 
 **Description:**  
 Analyzed email marketing campaigns to evaluate performance and engagement metrics, directly linking insights to CRM data for better customer relationship management. The analysis focused on understanding email delivery, recipient interactions, and overall campaign effectiveness. Key activities included:  
