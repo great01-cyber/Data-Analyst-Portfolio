@@ -14,7 +14,7 @@ I appreciate your Interest in my work. PLEASE DO FIND MY WORK ON EXCEL VIA THIS 
 
 ---
 
-### 📂 Project 1  
+### 📂 Project 1 : 
 
 - **Data Preparation**: Data Cleaning, Data Formatting, Data Transformation, Data Consolidation, Data Extraction, Data Validation  
 - **Analysis & Lookup Functions**: VLOOKUP, HLOOKUP, XLOOKUP, INDEX & MATCH, OFFSET, INDIRECT, TEXT functions, Array Formulas  
