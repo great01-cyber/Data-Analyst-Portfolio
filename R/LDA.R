@@ -1,0 +1,513 @@
+library(tm)
+
+params <- list(minDocFreq = 1,removeNumbers = TRUE,stopwords = TRUE,weighting = weightTf) 
+library("SnowballC")# for text stemming
+library("wordcloud")# word-cloud generator
+library("RColorBrewer")# color palettes
+require(topicmodels)# topic modeling
+require(pdftools)# read and load PDF documents
+require(tm)# text mining
+require(tidytext)#tidytext format
+require(ggplot2)#create visualizations 
+require(dplyr)#Manipulate data
+
+
+All_Files<- list.files(pattern = "PDF$")
+All_opinions <- lapply(All_Files, pdf_text)
+
+
+
+
+
+document<-Corpus(VectorSource(All_opinions))#create corpus
+
+
+##############
+
+# Tokenize the vector corpus into unigrams
+tokens <- unlist(sapply(document, function(doc) unlist(strsplit(doc, " "))))
+
+# Create bigrams
+bigrams <- paste(tokens[-length(tokens)], tokens[-1], sep = " ")
+
+# Get bigram frequencies
+bigram_freq <- table(bigrams)
+
+# Sort bigrams by frequency in descending order
+sorted_bigrams <- sort(bigram_freq, decreasing = TRUE)
+
+# Create a data frame with bigrams and frequency
+bigram_stats <- data.frame(bigram = names(sorted_bigrams), frequency = sorted_bigrams)
+
+# Save the results to a CSV file
+write.csv(bigram_stats, file = "bigram_stats6.csv", row.names = FALSE)
+
+
+
+
+########
+# Your specific word
+your_specific_word <- "China"
+
+# Function to extract sentences containing the specific word
+extract_sentences <- function(text, specific_word) {
+  # Split the text into sentences
+  sentences <- unlist(strsplit(text, "\\.\\s+"))
+  
+  # Find sentences containing the specific word
+  matching_sentences <- grep(paste0("\\b", specific_word, "\\b"), sentences, ignore.case = TRUE, value = TRUE)
+  
+  # Return the matching sentences
+  return(matching_sentences)
+}
+
+# Apply the function to each PDF text
+matching_sentences_list <- lapply(All_opinions, extract_sentences, specific_word = your_specific_word)
+
+# Combine the results into a single vector or data frame if needed
+matching_sentences <- unlist(matching_sentences_list)
+
+# Print or save the matching sentences
+print(matching_sentences)
+# Alternatively, save to a file
+writeLines(matching_sentences, "matching_sentences24.txt")
+
+
+
+# Assuming your vector corpus is named 'my_corpus'
+text <- unlist(document)
+words <- unlist(strsplit(text, "\\s+"))  # Split by whitespace
+
+num_words <- length(words)
+
+print(num_words)
+
+
+#######
+
+
+#
+
+
+
+
+document<-tm_map(document, content_transformer(tolower))#convert all text to lower case
+document <-tm_map(document,stripWhitespace)
+document <-tm_map(document,removePunctuation)
+document<-tm_map(document, removeNumbers)#Remove numbers from document
+document<-tm_map(document, removeWords, stopwords("english"))#remove stopwords in english
+document<-tm_map(document, removeWords, c("tveyes", 
+                                          "gmtnn", "just", "will", "ade", "yeah",
+                                          "can", "page","2\\n", "we're", "not", 
+                                          "like","say", "there's","have",
+                                          "don't","see", "it's", "was",
+                                          "from", "make", "way", "going","been","think","i'm","change:",
+                                          "all","isn't","they're","BBC","bbc","news", "text","want","weve","get","got","thats","also","dont", "the", "youre","inc", "ive", "gmtn", "theyre","isn't", "theres","trump", "president", "house", "democrats", "presidential", "impeachment",
+                                          "democratic", "candidates", "sanders", "trumps", "candidate", "iowa",
+                                          "white", "hes", "mueller", "bernie", "donald", "trade", "debate", "talks",
+                                          "warren", "campaign", "tariffs", "senate", "pelosi", "poll", "harris",
+                                          "voters", "mexico", "presidents", "sen", "report", "senator", "tonight",
+                                          "border", "venezuela", "pence", "david", "barr", "immigration", "iran",
+                                          "deal", "judiciary", "inslee", "vice", "kamala", "jay", "race", "speaker",
+                                          "washington","shutdown", "democrat", "buttigieg", "senators",
+                                          "panel", "maduro", "gov", "congress", "discusses", "nancy", "isis",
+                                          "arrested", "aid", "shes", "mcconnell", "polls", "commercial",
+                                          "republicans", "republican", "counsel", "joe", "mike", "mitch", "charges",
+                                          "amazon", "reporter", "chris", "war", "brooke", "articles", "constitution",
+                                          "clipnntrump", "debates", "plane", "attacks", "walmart", "jeff",
+                                          "wall", "van", "hall", "church", "abuse", "field", "mcgahn", "bolton",
+                                          "hearings", "strategy", "trump", "police", "court", "justice", "protests", "flight",
+                                          "shooting", "event", "protesters", "oregon", "pennsylvania", "judge",
+                                          "mississippi", "barrett", "supreme", "sally", "officers", "verdict",
+                                          "airlines", "vegas", "masks", "alabama", "ana", "winter", "louisville",
+                                          "tonight", "delays", "pence", "woodward", "las", "jim", "minneapolis",
+                                          "george", "amy", "supporters", "violent", "ginsburg", "wisconsin",
+                                          "space", "confirmation", "aviation", "portland", "wildfires", "conditions",
+                                          "breonna", "returning", "suspect", "book", "airports", "bob", "crane",
+                                          "distancing", "packed", "rip", "beijing", "reform", "migrants",
+                                          "disputes", "season", "arrests", "reelection", "ruth", "title", "jacob",
+                                          "denier", "flights", "sheriff", "cancellations", "bader", "aircraft",
+                                          "launches", "policing", "gulf", "taylors", "crews", "israel", "gatherings",
+                                          "braces", "manafort", "deputies", "church", "adam", "floyd", "freedom",
+                                          "hearing", "survivors", "clipnntrump", "ballots", "hosts", "october",
+                                          "charges","gma","abc","ashton", "jennifer","gmanngraphics","completed", "escaped", "taylor", "flu", "coney", "russia", "ukraine", "russian", "minister", "cnn", "voiceover", "china",
+                                          "war", "prime", "international","rep", "newsnnoffcamera","newsnnoffcamera","amstrup","putin", "military", "says",
+                                          "ukrainian", "countries", "government", "forces", "hong", "police","andnthen","fornthe","newsnngood","beyonce",
+                                          "security", "iran", "europe", "region", "video", "chinese", "kong", "israel","actressdiasbility","dem","blockbuster","holmes",
+                                          "foreign", "global", "european", "nato", "translator", "troops", "newsroom","newsnnand","gutman","newsnntonight","newsnnthe",
+                                          "leaders", "killed", "two", "africa", "nuclear", "south", "protests", "russias","suarez","nngraphics","mccain","fashion",
+                                          "israeli", "korea", "cnns", "summit", "russians", "leader", "border","istituto","landrieu",
+                                          "beijing", "attack", "authorities", "turkey", "vladimir", "british",
+                                          "dead", "chinas", "sanctions", "many", "city", "still", "since", "moscow",
+                                          "michael", "thousands", "ahead", "calling", "defense", "london", "france",
+                                          "correspondent", "united", "india", "meeting", "aid", "japan", "kim", "syria",
+                                          "another", "diplomatic", "macron", "conflict", "hours", "protesters", "saudi",
+                                          "rosemary", "top", "countrys", "north", "french", "across",
+                                          "tensions", "ukrainians", "nations", "course", "thursday", "visit",  "queen", "elizabeth", "gun", "charles", "king", "shooting", "royal",
+                                          "prince", "puerto", "rico", "mass", "texas", "harry", "palace", "austin",
+                                          "female", "family", "allen", "guns", "iii", "shootings",
+                                          "mother", "violence", "max", "iran", "william",
+                                          "thomas", "queens", "son", "obama", "london", "baby", "windsor",
+                                          "monarchy", "movie", "book", "funeral", "stranded", "mayor", "paso", "duke",
+                                          "shooter", "cook", "duchess", "tribute", "wales", "richard", "tragedy",
+                                          "foster", "meghan", "saudi", "clipnnbrunhuber", "monarch",
+                                          "antonio", "ceremony", "hall", "greek", "buckingham", "leader", "master",
+                                          "meet", "england", "birthday", "campaigns", "mall", "incident", "mourners",
+                                          "ambassadors", "actor", "orlando", "actress", "lying", "lady", "commonwealth",
+                                          "wounded", "immigration", "kashmir", "expel", "parents", "tour", "mourning",
+                                          "sussex", "carter", "convention", "saturday", "coffin", "prompted",
+                                          "vote", "former", "scott", "parks", "stephanopoulos", "august",
+                                          "tax", "rights", "new", "election", "party", "broadcasting", "bruce",
+                                          "documentn","support", "bidens", "karl",
+                                          "win", "agenda", "manchin", "governor",
+                                          "morning", "voting", "key", "state", "america", "change",
+                                          "nnn", "reservednnlength", "pass", "capitol", "first", "early", "estn",
+                                          "transcript", "today", "good", "states",
+                                          "rachel","climate","change", "billion", "national", "wordsnanchors", "prescription", "sundaynnnncopyright",
+                                          "legislation", "usannbodynnncontent", "fight", "ramaswamy", "john","limbaugh","viewnni","viewnnand","sews",
+                                          "hill","get", "see","youre","thank","thats","well","gmtnnn","text","nnncopy","also","nnn","schulze", "largest", "political", "thanks", "gop",
+                                          "point", "maryalice", "drug", "months", "stand", "victory", "january",
+                                          "november", "committee", "blinken", "secretary", "saying", "mary", "newnnvoiceover",
+                                          "viewnnwell", "viewn", "newnnoffcamera","newnnoffcamera","morgannreporters","abc", "newsnnoffcamera","newsnnvoiceover","newsnnand","raddatz","trip","middle","longman","arabia",
+                                          "zelenskyy","reign","members","allies","crowned","camilla", "johnson", "whit", "norman", "pilgrim", "janai", "saturdaynnnncopyright", "theodore", "johnsonnreporters", "eva", "normannreporters", "whitnnwhit",
+                                          "hostin", "behar", "goldberg", "haines", "griffin", "farah", "viewnni", "viewnnand", "navarro", "viewnnbut", "viewnnyeah", "viewnnyou", "know", "viewnnso",
+                                          "dem", "warnock", "director", "raphael", "executive", "congressman", "neguse", "mcclellan", "deputy", "eric", "sorensen", "student",
+                                          "singh", "tupac", "shot", "murder", "death", "shakur", "nightline", "ganss", "clip", "recording", "poms",
+                                          "gma", "morgan", "ashton", "jennifer", "know", "pilgrim", "holmes", "abc", "gmanngraphics", "robach", "ally", "demarco", "rep", "raddatz", "week", 
+                                          "allergy", "chair", "stage", "powerhouse", "taiwan", "wander", "ron", "affairs", "mccaul", "primary", "worley", "response", "world", "jarvis",
+                                          "ceo", "mccain", "executive", "programme", "inside", "department", "antony", "racial", "salary", "giving", "equity", "gates",
+                                          "epps", "lipof", "presha", "ault", "earthshot", "game", "coach", "boston", "nubia", "omar", "kate", "awards", "angeles", "basketball", "reeve"
+                                          
+                                          
+))
+
+# Assuming your vector corpus is named 'my_corpus'
+text <- unlist(document)
+words <- unlist(strsplit(text, "\\s+"))  # Split by whitespace
+
+num_words <- length(words)
+
+print(num_words)
+
+##########
+# Assuming 'corpus' is your vector corpus
+# Example: corpus <- Corpus(VectorSource(my_pdf_text_vector))
+
+# Preprocess the corpus
+corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeNumbers)
+corpus <- tm_map(corpus, removeWords, stopwords("en"))
+
+
+
+# Create a function to extract word frequencies from a document
+get_word_freq <- function(doc) {
+  term_freq <- table(unlist(strsplit(as.character(doc), " ")))
+  data.frame(word = names(term_freq), frequency = as.numeric(term_freq))
+}
+
+# Apply the function to each document in the corpus
+word_freq_list <- lapply(document, get_word_freq)
+
+# Combine the results into a single data frame
+word_stats <- do.call(rbind, word_freq_list)
+
+# Aggregate word frequencies across all documents
+agg_word_freq <- aggregate(frequency ~ word, data = word_stats, sum)
+
+# Save the data frame to a CSV file
+write.csv(agg_word_freq, file = "word_stats3.csv", row.names = FALSE)
+
+
+
+######
+# Assuming 'corpus' is your vector corpus
+# Example: corpus <- Corpus(VectorSource(my_pdf_text_vector))
+
+# Preprocess the corpus
+corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeNumbers)
+corpus <- tm_map(corpus, removeWords, stopwords("en"))
+
+# Create a function to extract word frequencies from a document
+get_word_freq <- function(doc) {
+  term_freq <- table(unlist(strsplit(as.character(doc), " ")))
+  data.frame(word = names(term_freq), frequency = as.numeric(term_freq))
+}
+
+# Apply the function to each document in the corpus
+word_freq_list <- lapply(document, get_word_freq)
+
+# Combine the results into a single data frame
+word_stats <- do.call(rbind, word_freq_list)
+
+# Aggregate word frequencies across all documents
+agg_word_freq <- aggregate(frequency ~ word, data = word_stats, sum)
+
+# Sort the data frame by frequency in descending order
+agg_word_freq <- agg_word_freq[order(-agg_word_freq$frequency), ]
+
+# Save the sorted data frame to a CSV file
+write.csv(agg_word_freq, file = "word_stats4.csv", row.names = FALSE)
+
+############
+
+# Combine all documents into a single text
+all_text <- tolower(unlist(sapply(document, `[`, "content")))
+all_text <- paste(all_text, collapse = " ")
+
+# Tokenize the combined text
+tokens <- unlist(strsplit(all_text, " "))
+
+# Calculate word frequencies
+word_freq <- table(tokens)
+
+# Sort the words by frequency in descending order
+sorted_words <- sort(word_freq, decreasing = TRUE)
+
+# Create a data frame with words and frequency
+word_stats <- data.frame(word = names(sorted_words), frequency = sorted_words)
+
+# Save the data frame to a CSV file
+write.csv(word_stats, file = "word_statsr.csv", row.names = FALSE)
+
+
+
+##########
+
+
+
+
+
+# Create document-term matrix
+dtm <- DocumentTermMatrix(document, control = params)
+
+# Load topic models library
+library(topicmodels)
+
+# Set parameters for Gibbs sampling
+burnin <- 4000
+iter <- 2000
+thin <- 500
+seed <-list(2003,5,63,100001,765)
+nstart <- 5
+best <- TRUE
+
+# Number of topics
+k <- 30
+
+# Run LDA using Gibbs sampling
+ldaOut <-LDA(dtm,k, method="Gibbs", control=list(nstart=nstart, seed = seed, best=best, burnin = burnin, iter = iter, thin=thin))
+
+# write out results
+# docs to topics
+
+ldaOut.topics <- as.matrix(topics(ldaOut))
+write.csv(ldaOut.topics,file=paste("LDAGibbs",k,"DocsToTopicsnew2.csv"))
+
+# Top N terms in each topic
+ldaOut.terms <- as.matrix(terms(ldaOut,20))
+write.csv(ldaOut.terms,file=paste("LDAGibbs",k,"TopicsToTermsnew3.csv"))
+
+
+
+# Probabilities associated with each topic assignment
+topicProbabilities <- as.data.frame(ldaOut@gamma)
+write.csv(topicProbabilities,file=paste("LDAGibbs",k,"TopicProbabilitiest1.csv"))
+
+
+
+library(tidytext)
+
+ap_topics <- tidy(ldaOut, matrix = "beta")
+
+library(ggplot2)
+library(dplyr)
+
+ap_top_terms <- ap_topics %>%
+  group_by(topic) %>%
+  top_n(20, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+
+ap_top_terms %>%
+  mutate(term = reorder(term, beta)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip()
+
+
+library(tidyr)
+library(gtsummary)
+terms(ldaOut, 5)
+
+
+
+
+
+library(tm)
+
+# Assuming 'documents' is your DocumentTermMatrix (dtm) or Corpus
+# Replace 'your_specific_word' with the word you're interested in
+target_word <- "tiktok"
+
+# Convert DocumentTermMatrix to a list of character vectors
+documents <- lapply(seq_along(document), function(i) {
+  as.character(document[[i]])
+})
+
+# Find occurrences of the target word in the documents
+word_indices <- lapply(document, function(doc) grep(target_word, doc))
+
+# Extract 20 words before and after the target word for each document
+context_sentences <- lapply(seq_along(documents), function(i) {
+  indices <- word_indices[[i]]
+  if (length(indices) > 0) {
+    context <- sapply(indices, function(idx) {
+      start <- max(1, idx - 20)
+      end <- min(length(documents[[i]]), idx + 20)
+      paste(documents[[i]][start:end], collapse = " ")
+    })
+    return(data.frame(Document = i, Context = context, stringsAsFactors = FALSE))
+  } else {
+    return(data.frame(Document = i, Context = NA, stringsAsFactors = FALSE))
+  }
+})
+
+# Combine the results into a data frame
+result_df <- do.call(rbind, context_sentences)
+
+# Save the result as a CSV file
+write.csv(result_df, file = "context_around_word1.csv", row.names = FALSE)
+
+# Display the result
+print(result_df)
+
+
+
+gamma_documents<-tidy(ldaOut, matrix ="gamma")
+#create a data.frame with the gamma results 
+doc_gamma.df<-data.frame(gamma_documents)
+doc_gamma.df$chapter<-rep(1:dim(dtm)[1],20)
+
+#plot Gamma results
+ggplot(data=doc_gamma.df, aes(x=chapter, y= gamma,
+                              group= factor(topic),color=factor(topic)))+
+  geom_line()+facet_wrap(~factor(topic),ncol=4)
+
+
+
+
+# Load required libraries
+library(tm)
+library(topicmodels)
+
+# Assuming 'dtm' is your document-term matrix and 'ldaOut' is your LDA model
+
+# Convert dtm to a Document-Term Matrix
+dtm <- as.DocumentTermMatrix(dtm)
+
+# Convert dtm to a matrix
+mat <- as.matrix(dtm)
+
+# Compute perplexity
+perplexity <- perplexity(ldaOut, newdata = mat)
+
+# Print the perplexity score
+print(paste("Perplexity Score:", perplexity))
+
+
+
+# Set the seed for reproducibility
+set.seed(123)  # You can use any integer value as the seed
+
+# Assuming 'dtm' is your document-term matrix
+# Set other parameters as needed
+k <- 40  # Number of topics
+
+# Run LDA using Gibbs sampling with a specified seed
+ldaOut <- LDA(dtm, k, method = "Gibbs", control = list(seed = 123))
+
+# Calculate perplexity
+perplexity <- perplexity(ldaOut, newdata = dtm)
+
+# Print the perplexity score
+print(paste("Perplexity Score:", perplexity))
+
+
+library(slam) 
+
+dtm_matrix <- as.matrix(dtm)
+
+# Calculate word frequencies
+word_freq <- row_sums(dtm_matrix)
+
+# Calculate overall word percentage
+word_percentage <- word_freq/sum(word_freq) * 100
+
+# Create a data frame with words, frequency, and percentage
+word_stats <- data.frame(word = names(word_freq), frequency = word_freq, percentage = word_percentage)
+
+# Save the data frame to a CSV file
+write.csv(word_stats, file = "word_stats.csv", row.names = FALSE)
+
+
+
+
+
+
+mat <- as.matrix(dfm)
+
+# Calculate co-occurrence of all word pairs
+co_occurrences <- crossprod(mat)
+
+# Convert the co-occurrence matrix to a data frame
+co_occurrence_df <- as.data.frame(as.table(co_occurrences))
+
+# Filter out rows with zero co-occurrence
+co_occurrence_df <- co_occurrence_df[co_occurrence_df$Freq > 0, ]
+
+# Save the data frame to a CSV file
+write.csv(co_occurrence_df, file = "co_occurrence_stats.csv", row.names = FALSE)
+
+
+
+
+#####################
+# Create bigrams from the vector corpus
+bigram_tokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
+dtm <- DocumentTermMatrix(corpus, control = list(tokenizer = bigram_tokenizer))
+
+# Convert the DocumentTermMatrix to a matrix
+bigram_matrix <- as.matrix(dtm)
+
+# Calculate word frequencies
+word_freq <- row_sums(bigram_matrix)
+
+# Create a data frame with bigrams and frequency
+bigram_stats <- data.frame(bigram = names(word_freq), frequency = word_freq)
+
+# Save the data frame to a CSV file
+write.csv(bigram_stats, file = "bigram_stats.csv", row.names = FALSE)
+
+
+
+
+#########
+library(dplyr)
+
+# Calculate topic prevalence for each dataset
+prevalence <- ldaOut %>%
+  group_by(dataset, topic) %>%
+  summarise(total_weight = sum(weight)) %>%
+  mutate(prevalence = total_weight / sum(total_weight))
+
+# Print or save the results
+print(prevalence)
+
+
+
