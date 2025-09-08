@@ -1,4 +1,5 @@
 ##Abstract 
+
 Climate change has emerged as the predominant challenge of the 21st century, as highlighted by the IPCC in 2014. Media representation plays a crucial role in shaping which aspects of climate change are emphasized and in motivating public engagement. Newspapers and television broadcasts, in particular, serve as pivotal channels of communication. Given the abstract nature of climate change, which many people experience indirectly, media coverage significantly influences public and political discourse, thereby impacting decisions related to both mitigation and adaptation strategies. Consequently, it is essential to examine how climate change is framed in the media.
 
 Guided by framing theory and its various conceptualizations, this study analyzed the framing of climate change by two prominent media organizations: ABC and BBC News. Using a combination of content analysis and Latent Dirichlet Allocation (LDA) topic modeling, the study identified four primary climate change frames employed by both media outlets:
