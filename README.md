@@ -2,7 +2,7 @@
 
 Welcome to my **Data Analyst Portfolio!**  
 
-I am a passionate and detail-oriented **Data Analyst** with extensive experience working at a **Top 100 University in the World**, where I have honed my ability to leverage data for impactful decision-making. My background has equipped me with the skills to **collect, clean, organize, analyze, and visualize data effectively**, turning raw information into meaningful insights that drive results.  
+I am a passionate and detail-oriented **Data Analyst** with extensive experience working at a **Top 100 University in the World**, where I have honed my ability to leverage data for impactful decision-making. My background has equipped me with the skills to **collect, clean, organise, analyse, and visualise data effectively**, turning raw information into meaningful insights that drive results.  
 
 ---
 
