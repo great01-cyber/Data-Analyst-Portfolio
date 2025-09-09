@@ -50,4 +50,34 @@ The client requested a **Power BI interactive dashboard** to visualize business 
 - Write complex SQL queries using a variety of functions.  
 - Perform **ETL (Extract, Transform, Load)** processes for BI.  
 - Design **clean, insightful dashboards** in Power BI.  
-- Translate raw data into **actionable business insights**.  
+- Translate raw data into **actionable business insights**.
+
+
+# Project 2: SQL + Power BI + Machine Learning — Customer Churn Analysis  
+
+In this project, I analyzed customer churn using **SQL** for data preparation, **Power BI** for visualization, and a **machine learning model** for prediction.  
+
+### 🔹 Key Analyses Performed  
+- Churn rate by **gender**  
+- Churn rate by **payment method**  
+- Churn rate by **contract type**  
+- Churn by **tenure group**  
+- Overall **total customers** and **churn percentage**  
+- Analysis of **churn reasons**  
+- Churn by **services used**  
+- Churn rate by **age group**  
+- Churn rate by **marital status**  
+- Predicted **churner profiles** using ML  
+
+### 🔹 Machine Learning Component  
+- Trained a predictive churn model to identify customers most likely to leave.  
+- Used features such as demographics, service usage, and contract details.  
+- Provided insights into the **key drivers of churn** to support retention strategies.  
+
+### 🎯 Project Outcome  
+This project helped demonstrate how **SQL + Power BI + ML** can be combined to:  
+- Uncover churn patterns.  
+- Predict at-risk customers.  
+- Provide actionable insights for **customer retention strategies**.  
+
+
