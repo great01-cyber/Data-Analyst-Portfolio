@@ -28,4 +28,4 @@ The study highlighted a critical gap: the **lack of decision support systems for
 ---
 
 ### 🎯 Key Contribution  
-This thesis demonstrates that **explainable AI (XAI)** can provide clear insights into how machine learning models generate predictions. Such transparency is vital for increasing **trust, interpretability, and acceptance** of advanced AI methods in **oncology and healthcare**.  
+This project demonstrates that **explainable AI (XAI)** can provide clear insights into how machine learning models generate predictions. Such transparency is vital for increasing **trust, interpretability, and acceptance** of advanced AI methods in **oncology and healthcare**.  
