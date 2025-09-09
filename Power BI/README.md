@@ -1,4 +1,4 @@
-# SQL + Power BI Project: Pizza Sales Analysis  
+# Project 1: SQL + Power BI Project: Pizza Sales Analysis  
 
 In this SQL project, I use a wide range of SQL functions and clauses to analyze the Chinook database. These include:  
 
