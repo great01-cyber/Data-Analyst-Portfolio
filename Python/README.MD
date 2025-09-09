@@ -1,4 +1,31 @@
-##Abstract
+## Abstract  
 
-Currently, breast cancer detection utilises machine learning algorithms. However, these models are often referred to as "black boxes," which obscure their internal processes from users. This lack of transparency makes their outputs difficult for doctors to interpret. In response, this study explores and incorporates explainability facilities to machine learning model used for breast cancer classification. Data sourced from the University of California, Irvine Machine Learning Repository was used to create a machine learning model that predicts the occurrence of breast cancer, with Shapley Additive exPlanations (SHAP) and Local Interpretable Model-Agnostic Explanations (LIME) employed to interpret the model's predictions. The dataset used in the training process is a numeric dataset, and no images was used. Also, this research took a step further to evaluate the explainability produced by LIME and SHAP, by conducting a survey which was distributed through Qualtrics. The explainability was assessed based on four criteria: understandability, sufficiency, trustworthiness, and satisfaction. Additionally, both models were compared against each other to evaluate consistency, and a degree of consistency was found between LIME and SHAP. Also, this research identified a crucial gap, which is the lack of breast cancer diagnosis decision support systems. In response, an extensive research was conducted to identify possible risk factors of breast cancer, and a clinical breast cancer decision support system was designed, using a package in python called “Tkinter”, which could be further developed in the future. Hence, this thesis demonstrates that explainable AI can provide clear insights into how models generate their predictions, which is essential for increasing trust and acceptance of advanced ML methods in oncology and healthcare.
+Currently, breast cancer detection utilises machine learning algorithms. However, these models are often referred to as **"black boxes,"** which obscure their internal processes from users. This lack of transparency makes their outputs difficult for doctors to interpret.  
 
+In response, this study explores and incorporates **explainability techniques** into a machine learning model used for breast cancer classification. Data sourced from the **University of California, Irvine (UCI) Machine Learning Repository** was used to create a predictive model for breast cancer occurrence. To interpret the model’s predictions, two state-of-the-art explainability methods were applied:  
+
+- **SHAP (Shapley Additive exPlanations)**  
+- **LIME (Local Interpretable Model-Agnostic Explanations)**  
+
+The dataset used was numeric (no images were involved).  
+
+---
+
+### 🔹 Explainability Evaluation  
+This research went a step further by **evaluating the interpretability of LIME and SHAP** through a survey distributed via **Qualtrics**. The evaluation was based on four criteria:  
+- **Understandability**  
+- **Sufficiency**  
+- **Trustworthiness**  
+- **Satisfaction**  
+
+Additionally, both models were compared to assess **consistency**, and a degree of agreement was observed between LIME and SHAP.  
+
+---
+
+### 🔹 Identified Gap: Clinical Decision Support  
+The study highlighted a critical gap: the **lack of decision support systems for breast cancer diagnosis**. To address this, extensive research was conducted to identify possible **risk factors for breast cancer**, and a prototype **clinical decision support system (CDSS)** was designed using **Tkinter (Python GUI library)**. This tool could be further developed to aid medical practitioners in the future.  
+
+---
+
+### 🎯 Key Contribution  
+This thesis demonstrates that **explainable AI (XAI)** can provide clear insights into how machine learning models generate predictions. Such transparency is vital for increasing **trust, interpretability, and acceptance** of advanced AI methods in **oncology and healthcare**.  
