@@ -9,7 +9,6 @@ I appreciate your Interest in my work. PLEASE DO FIND MY WORK ON EXCEL VIA THIS 
 - **Analysis & Lookup Functions**: VLOOKUP, HLOOKUP, XLOOKUP, INDEX & MATCH, OFFSET, INDIRECT, TEXT functions, Array Formulas  
 - **Data Analysis Tools**: Pivot Tables, Power Query, Power Pivot, What-If Analysis, Scenario Manager, Goal Seek, Solver  
 - **Visualization & Reporting**: Advanced Charts, Conditional Formatting, Sparklines, Interactive Dashboards, KPI Tracking  
-- **Automation & Productivity**: Macros, VBA Programming, Named Ranges, Dynamic Arrays, LET & LAMBDA Functions  
 - **Data Protection & Management**: Data Encryption, Worksheet/Workbook Protection, Version Control, Audit Tools  
 
 ## 📊 Excel Projects  
